@@ -1,0 +1,33 @@
+body {
+    background-color: #222222;
+}
+
+/* nav {
+    background-color: lightcoral;
+} */
+
+.search-container {
+    border: solid 1px rgb(255, 255, 255);
+    height: 150px;
+    background-color: #777777;
+    margin-top: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.search-button,
+.clear-button {
+    width: 100px;
+    height: 40px;
+}
+
+.movie-cover,
+.movie-info {
+    border: solid 1px white; /* won't keep border */
+    height: 300px;
+}
+
+.provider-container {
+    border: solid 1px white;
+    height: 150px;
+}
