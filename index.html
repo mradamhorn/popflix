@@ -21,50 +21,53 @@
         </div>
     </nav>
 
-    <div class='container search-container'>
+    <div class='container search-container z-depth-3'>
         <br>
 
         <div class='row'>
-            <div class="input-field col s3">
+            <p class='intro'>Welcome to popflix! Lately, with the eons of content available, we've been having trouble
+                deciding what to watch and found ourselves engaged in the phenomenon of "Netflix and Scroll." That stops
+                now! Select some basic criteria and let our random search generator find a movie for you to watch.</p>
+            <br>
+            <hr><br>
+            <div class="input-field col s12 m6 l3">
                 <select id='genreSelect'>
                     <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Genre</label>
             </div>
 
-            <div class="input-field col s3">
+            <div class="input-field col s12 m6 l3">
                 <select id='decadeSelect'>
                     <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Decade</label>
             </div>
 
-            <div class="input-field col s3">
+            <div class="input-field col s12 m6 l3">
                 <select id='ratingSelect'>
                     <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Rating</label>
             </div>
 
-            <div class="input-field col s3">
+            <div class="input-field col s12 m6 l3">
                 <input placeholder="Enter Actor Name" id="name" type="text" class="validate">
                 <label for="name">Actor</label>
             </div>
 
         </div>
+
+        <!-- Search and Clear selector buttons -->
         <div class='row'>
-            <div class='col s4'></div>
-            <div class='col s2 center-align'>
-                <button class="waves-effect waves-light btn search-button" id="srchBtn">Search
+            <div class='col s6 right-align'>
+                <button class="waves-effect waves-light btn search-button pulse" id="srchBtn">Search
                 </button>
             </div>
-            <div class='col s2 center-align'>
-
+            <div class='col s6 left-align'>
                 <button class="waves-effect waves-light btn clear-button" id="clear">Clear
-
                 </button>
             </div>
-            <div class='col s4'></div>
         </div>
 
     </div>
@@ -73,24 +76,20 @@
 
     <br>
 
-    <div class='container result-container'>
+    <div class='container result-container z-depth-3'>
+
         <div class='row'>
-            <div class='col s6 movie-cover'>
-
-            </div>
-
-            <div class='col s6 movie-info'>
-
-            </div>
-
+            <!-- <div class='col s12 result-header center-align'>Pop into a new world...</div> -->
+            <div class='col s12 l7 movie-info'></div>
+            <div class='col s12 l5 movie-cover'></div>
         </div>
 
     </div>
 
-    <div class='container provider-container'>
+    <div class='container provider-container z-depth-3'>
         <div class='row watch-row'>
-            <div class='col s5 watch-here'>Watch on these services:</div>
-            <div class='col s7' id="uTelly"></div>
+            <div class='col s6 watch-here'>Watch on these services:</div>
+            <div class='col s6' id="uTelly"></div>
         </div>
     </div>
 
