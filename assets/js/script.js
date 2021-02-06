@@ -17,10 +17,12 @@
 //         desc.innerHTML = "Condition: " + descValue;
 //     })
 
+
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
 });
+
 
 
 console.log("hi")
@@ -69,8 +71,11 @@ $("#srchBtn").on("click", function () {
 
 
 
-function getApi() {
-    var results = "boom town";
+
+function getApi(movie) {
+
+    var results = movie;
+
     fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
         method: "GET",
         headers: {
@@ -93,14 +98,22 @@ function getApi() {
             }
 
             for (var i = 0; i < movieMatch.locations.length; i++) {
-                var button = $("<button>")
-                var icon = $("<img>").attr("src", movieMatch.locations[i].icon)
+
+                var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
+                var button = $("<button>").attr("url", movieMatch.locations[i].url);
+
                 $("#uTelly").append(button);
-                button.append(icon)
+
+                button.append(icon);
+                console.log(button);
+
 
             }
-            console.log(movieMatch);
-        });
+            $("#uTelly").on("click", "button", function () {
+                window.location = ($(this).attr("url"));
+            });
+
+        })
 }
 // button.addEventListener("click", function(){
 //     fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?"+genreQuery, {
@@ -133,4 +146,4 @@ function getApi() {
 // .catch(err => alert("Wrong movie name"))
 // })
 
-getApi();
+getApi("top gun");
