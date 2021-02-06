@@ -1,15 +1,16 @@
 body {
     background-color: #222222;
+    background-image: url(https://paramountaurora.com/wp-content/uploads/2018/08/Paramount-Interior.jpg);
 }
 
-/* nav {
-    background-color: lightcoral;
-} */
+nav {
+    background-color: #000000;
+}
 
 .search-container {
     border: solid 1px rgb(255, 255, 255);
-    height: 150px;
-    background-color: #777777;
+    height: 200px;
+    background-color: #4b4b4b;
     margin-top: 30px;
     padding-left: 25px;
     padding-right: 25px;
@@ -24,10 +25,24 @@ body {
 .movie-cover,
 .movie-info {
     border: solid 1px white; /* won't keep border */
-    height: 300px;
+    height: 500px;
 }
+
+.movie-cover,
+.movie-info,
+.provider-container {
+    background-color: #000000a8;
+}
+
+/* .movie-info {
+    background-color: #ffffffd8;
+} */
 
 .provider-container {
     border: solid 1px white;
-    height: 150px;
+    height: 100px;
+}
+
+.brand-logo {
+    font-size: 25px;
 }
