@@ -27,37 +27,31 @@
         <div class='row'>
             <div class="input-field col s3">
                 <select id='genreSelect'>
-                    <option value="" disabled selected>Choose your option</option>
+                    <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Genre</label>
             </div>
 
             <div class="input-field col s3">
                 <select id='decadeSelect'>
-                    <option value="" disabled selected>Choose your option</option>
+                    <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Decade</label>
             </div>
 
             <div class="input-field col s3">
                 <select id='ratingSelect'>
-                    <option value="" disabled selected>Choose your option</option>
+                    <option value="" class='choose' disabled selected>Choose your option</option>
                 </select>
                 <label>Rating</label>
             </div>
 
             <div class="input-field col s3">
-                <select id='actorSelect'>
-                    <option value="" disabled selected>Choose your option</option>
-                </select>
-                <label>Actor</label>
+                <input placeholder="Enter Actor Name" id="name" type="text" class="validate">
+                <label for="name">Actor</label>
             </div>
+
         </div>
-
-
-        <br><br>
-
-
         <div class='row'>
             <div class='col s4'></div>
             <div class='col s2 center-align'>
@@ -75,7 +69,9 @@
 
     </div>
 
-    <br><br>
+    </div>
+
+    <br>
 
     <div class='container result-container'>
         <div class='row'>
@@ -91,16 +87,11 @@
 
     </div>
 
-    <br>
-
     <div class='container provider-container'>
-
-        <div class='row' id="uTelly">
-
-
-
+        <div class='row watch-row'>
+            <div class='col s5 watch-here'>Watch on these services:</div>
+            <div class='col s7' id="uTelly"></div>
         </div>
-
     </div>
 
 
