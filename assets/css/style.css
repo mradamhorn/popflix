@@ -9,11 +9,17 @@ nav {
 
 .search-container {
     border: solid 1px rgb(255, 255, 255);
-    height: 200px;
+    height: auto;
     background-color: #7a1f1fea;
     margin-top: 30px;
     padding-left: 25px;
     padding-right: 25px;
+}
+
+.intro {
+    font-size: 18px;
+    color: #f5f5f5;
+    line-height: 1.5;
 }
 
 .search-button,
@@ -22,12 +28,17 @@ nav {
     height: 40px;
 }
 
+.clear-button{
+    background-color:#000000;
+}
+
 .movie-cover,
 .movie-info {
-    border: solid 1px white; /* won't keep border */
-    height: 500px;
+    border: solid 1px white;
+    height: auto;
     background-color: #ffe4c4d3;
 }
+
 
 .provider-container {
     background-color: #000000a8;
@@ -35,7 +46,8 @@ nav {
 
 .provider-container {
     border: solid 1px white;
-    height: 100px;
+    height: auto;
+    margin-bottom: 15px;
 }
 
 .brand-logo {
@@ -54,5 +66,10 @@ nav {
 }
 
 #uTelly {
-    height: 30px;
+    height: auto;
 }
+
+.input-field {
+    text-align: center;
+}
+
