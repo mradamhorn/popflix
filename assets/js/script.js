@@ -111,22 +111,58 @@ fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?
 
 
 
-    // fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?Genres=Fantasy&YearRange_Start=2010&YearRange_End=2020", {
-    //     "method": "GET",
-    //     "headers": {
-    //         "content-type": "application/json",
-    //         "x-rapidapi-key": "cad95bd25cmsh6e5669cc54c4eb1p11eeb2jsn2eebb15c9353",
-    //         "x-rapidapi-host": "ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com"
-    //     }
-    // })
-    // .then(response => response.json(){
-    //     console.log(response);
-    // })
-    // .catch(err => {
-    //     console.error(err);
-    // });
+// fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?Genres=Fantasy&YearRange_Start=2010&YearRange_End=2020", {
+//     "method": "GET",
+//     "headers": {
+//         "content-type": "application/json",
+//         "x-rapidapi-key": "cad95bd25cmsh6e5669cc54c4eb1p11eeb2jsn2eebb15c9353",
+//         "x-rapidapi-host": "ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com"
+//     }
+// })
+// .then(response => response.json(){
+//     console.log(response);
+// })
+// .catch(err => {
+//     console.error(err);
+// });
 
 
 // .catch(err => alert("Wrong movie name"))
 // })
 
+
+// IMDb alternative API
+
+let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
+
+function getPoster(randomMovie) {
+    fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "923b9036e4msh7d50620128936fep112714jsn6dbacd41c48e",
+            //"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            for (let i = 0; i < data.Search.length; i++) {
+                const element = data.Search[i];
+                if (randomMovie === data.Search[i].Title) {
+                    let poster = $('<img>').attr("src", data.Search[i].Poster)
+                    $("#movie-cover").append(poster);
+                    break;
+                } else {
+
+                }
+
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+getPoster(randomMovie)
