@@ -1,4 +1,3 @@
-
 // var button = document.querySelector(".button");
 // var inputValue = document.querySelector(".input-value");
 // var city = document.querySelector(".city");
@@ -18,10 +17,12 @@
 //         desc.innerHTML = "Condition: " + descValue;
 //     })
 
+
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
 });
+
 
 
 console.log("hi")
@@ -67,38 +68,53 @@ $("#srchBtn").on("click", function () {
 
 })
 
-var results = "boom town";
-//make function
-fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
-    method: "GET",
-    headers: {
-        "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
-        "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com"
-    }
-})
-    .then(function (response) {
 
-        return response.json();
+
+
+
+function getApi(movie) {
+
+    var results = movie;
+
+    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
+        method: "GET",
+        headers: {
+            "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
+            "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com"
+        }
     })
-    .then(function (data) {
-        var name = data.results
-        var movieMatch;
-        for (var i = 0; i < name.length; i++) {
-            if (results === name[i].name.toLowerCase()) {
-                movieMatch = name[i];
-                break;
+        .then(function (response) {
+
+            return response.json();
+        })
+        .then(function (data) {
+            var name = data.results
+            var movieMatch;
+            for (var i = 0; i < name.length; i++) {
+                if (results === name[i].name.toLowerCase()) {
+                    movieMatch = name[i];
+                    break;
+                }
             }
-        }
 
-        for (var i = 0; i < movieMatch.locations.length; i++) {
-            var button = $("<button>")
-            var icon = $("<img>").attr("src", movieMatch.locations[i].icon)
-            $("#uTelly").append(button);
-            button.append(icon)
-        }
-        console.log(movieMatch);
-    });
+            for (var i = 0; i < movieMatch.locations.length; i++) {
 
+                var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
+                var button = $("<button>").attr("url", movieMatch.locations[i].url);
+
+                $("#uTelly").append(button);
+
+                button.append(icon);
+                console.log(button);
+
+
+            }
+            $("#uTelly").on("click", "button", function () {
+                window.location = ($(this).attr("url"));
+            });
+
+        })
+}
 // button.addEventListener("click", function(){
 //     fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?"+genreQuery, {
 //         "method": "GET",
@@ -129,7 +145,6 @@ fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?
 
 // .catch(err => alert("Wrong movie name"))
 // })
-
 
 // IMDb alternative API
 
@@ -166,3 +181,7 @@ function getPoster(randomMovie) {
 }
 
 getPoster(randomMovie)
+
+getApi("top gun");
+
+
