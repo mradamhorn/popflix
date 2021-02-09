@@ -32,13 +32,22 @@ nav {
     background-color:#000000;
 }
 
+
 .movie-cover,
 .movie-info {
-    border: solid 1px white;
     height: auto;
     background-color: #ffe4c4d3;
 }
 
+#movie-cover {
+    padding: 50px;
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
 
 .provider-container {
     background-color: #000000a8;

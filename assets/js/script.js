@@ -146,4 +146,42 @@ function getApi(movie) {
 // .catch(err => alert("Wrong movie name"))
 // })
 
+// IMDb alternative API
+
+let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
+
+function getPoster(randomMovie) {
+    fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "923b9036e4msh7d50620128936fep112714jsn6dbacd41c48e",
+            //"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            for (let i = 0; i < data.Search.length; i++) {
+                const element = data.Search[i];
+                if (randomMovie === data.Search[i].Title) {
+                    let poster = $('<img>').attr("src", data.Search[i].Poster)
+                    $("#movie-cover").append(poster);
+                    break;
+                } else {
+
+                }
+
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+getPoster(randomMovie)
+
 getApi("top gun");
+
+
