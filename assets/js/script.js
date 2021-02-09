@@ -1,7 +1,9 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
 });
+
 
 
 console.log("hi")
@@ -108,35 +110,84 @@ $("#srchBtn").on("click", function () {
 })
 
 
+function getApi(movie) {
 
-var results = "boom town";
-//make function
-fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
-    method: "GET",
-    headers: {
-        "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
-        "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com"
-    }
-})
-    .then(function (response) {
+    var results = movie;
 
-        return response.json();
+    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
+        method: "GET",
+        headers: {
+            "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
+            "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com"
+        }
     })
-    .then(function (data) {
-        var name = data.results
-        var movieMatch;
-        for (var i = 0; i < name.length; i++) {
-            if (results === name[i].name.toLowerCase()) {
-                movieMatch = name[i];
-                break;
-            }
-        }
+        .then(function (response) {
 
-        for (var i = 0; i < movieMatch.locations.length; i++) {
-            var button = $("<button>")
-            var icon = $("<img>").attr("src", movieMatch.locations[i].icon)
-            $("#uTelly").append(button);
-            button.append(icon)
+            return response.json();
+        })
+        .then(function (data) {
+            var name = data.results
+            var movieMatch;
+            for (var i = 0; i < name.length; i++) {
+                if (results === name[i].name.toLowerCase()) {
+                    movieMatch = name[i];
+                    break;
+                }
+            }
+
+           
+            for (var i = 0; i < movieMatch.locations.length; i++) {
+
+                var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
+                var button = $("<button>").attr("url", movieMatch.locations[i].url);
+
+                $("#uTelly").append(button);
+
+                button.append(icon);
+                console.log(button);
+
+
+            }
+            $("#uTelly").on("click", "button", function () {
+                window.location = ($(this).attr("url"));
+            });
+
+        })
+}
+
+let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
+
+function getPoster(randomMovie) {
+    fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "923b9036e4msh7d50620128936fep112714jsn6dbacd41c48e",
+            //"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
         }
-        console.log(movieMatch);
-    });
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            for (let i = 0; i < data.Search.length; i++) {
+                const element = data.Search[i];
+                if (randomMovie === data.Search[i].Title) {
+                    let poster = $('<img>').attr("src", data.Search[i].Poster)
+                    $("#movie-cover").append(poster);
+                    break;
+                } else {
+
+                }
+
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+getPoster(randomMovie)
+
+getApi("top gun");
+
