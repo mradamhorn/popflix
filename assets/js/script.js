@@ -1,22 +1,3 @@
-// var button = document.querySelector(".button");
-// var inputValue = document.querySelector(".input-value");
-// var city = document.querySelector(".city");
-// var desc = document.querySelector(".desc");
-// var temp = document.querySelector(".temp");
-
-// button.addEventListener("click", function(){
-//     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&appid=0f59db382c2a056a530ec61ec957415c")
-//     .then(response => response.json())
-//     .then(data => {
-//         var nameValue = data["name"];
-//         var tempValue = data["main"]["temp"];
-//         var descValue = data["weather"][0]["description"];
-
-//         city.innerHTML = nameValue;
-//         temp.innerHTML = "Temp: " + tempValue;
-//         desc.innerHTML = "Condition: " + descValue;
-//     })
-
 
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
@@ -28,14 +9,32 @@ document.addEventListener('DOMContentLoaded', function () {
 console.log("hi")
 
 var genreInput = $("#genreSelect");
-var decade = $("#decadeSelect");
-var rating = $("#ratingSelect");
-var actor = $("#actorSelect");
+var decadeInput = $("#decadeSelect");
+var ratingInput = $("#ratingSelect");
+var actorInput = $("#name");
 var search = $("#srchBtn");
 var clear = $("#clear");
 
-// var genreQuery = "Genres="+genreInput.value
-var genres = ["Action", "Adventure", "Fantasy"]
+// genres manually selected from imdb genre list
+var genres = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"]
+var decades = [
+    { display: "1950s", query: "YearRange_Start=1950&YearRange_End=1959" },
+    { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
+    { display: "1970s", query: "YearRange_Start=1970&YearRange_End=1979" },
+    { display: "1980s", query: "YearRange_Start=1980&YearRange_End=1989" },
+    { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
+    { display: "1990s", query: "YearRange_Start=1990&YearRange_End=1999" },
+    { display: "2000s", query: "YearRange_Start=2000&YearRange_End=2009" },
+    { display: "2020s", query: "YearRange_Start=2020&YearRange_End=2019" }
+]
+
+var ratings = [
+    { display: "8+", query: "Minimum_IvaRating=80" },
+    { display: "6+", query: "Minimum_IvaRating=60" },
+    { display: "4+", query: "Minimum_IvaRating=40" },
+    { display: "2+", query: "Minimum_IvaRating=20" },
+    { display: "0+", query: "Minimum_IvaRating=0" }
+];
 
 for (var i = 0; i < genres.length; i++) {
     console.log("for loop")
@@ -44,32 +43,71 @@ for (var i = 0; i < genres.length; i++) {
     console.log(option)
 }
 
+for (var i = 0; i < decades.length; i++) {
+    console.log("for loop")
+    var option = $("<option>").attr("value", decades[i].query).text(decades[i].display)
+    decadeInput.append(option)
+    console.log(option)
+}
+
+for (var i = 0; i < ratings.length; i++) {
+    console.log("for loop")
+    var option = $("<option>").attr("value", ratings[i].query).text(ratings[i].display)
+    ratingInput.append(option)
+    console.log(option)
+}
+
 $("#srchBtn").on("click", function () {
-    console.log($("#genreSelect").val())
-    var genre = $("#genreSelect").val()
-    var genreQuery = "Genres=" + genre
-    fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?" + genreQuery, {
+    if ($("#genreSelect").val()) {
+        var genre = $("#genreSelect").val()
+        console.log(genre)
+        var genreQuery = "Genres=" + genre
+    }
+    else {
+        var genreQuery = ""
+    };
+
+    if ($("#decadeSelect").val()) {
+        var decade = $("#decadeSelect").val()
+        console.log(decade)
+        var decadeQuery = "&" + decade
+    }
+    else {
+        var decadeQuery = ""
+    };
+
+    if ($("#ratingSelect").val()) {
+        var rating = $("#ratingSelect").val()
+        console.log(rating)
+        var ratingQuery = "&" + rating
+    }
+    else {
+        var ratingQuery = ""
+    };
+
+    if ($("#name").val()) {
+        var actorName = $("#name").val()
+        console.log(actorName)
+        var actorQuery = "&PersonNames=" + actorName
+    }
+    else {
+        var actorName = ""
+    };
+
+    fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?" + genreQuery + actorQuery + "&ReleaseCountries=US" + decadeQuery + ratingQuery + "&ProgramTypes=Movie", {
         "method": "GET",
         "headers": {
             "content-type": "application/json",
             "x-rapidapi-key": "cad95bd25cmsh6e5669cc54c4eb1p11eeb2jsn2eebb15c9353",
             "x-rapidapi-host": "ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com"
         }
-
     })
-
         .then(function (response) {
             return response.json();
         }).then(function (data) {
             console.log(data);
         })
-
-
-
 })
-
-
-
 
 
 function getApi(movie) {
@@ -97,6 +135,7 @@ function getApi(movie) {
                 }
             }
 
+           
             for (var i = 0; i < movieMatch.locations.length; i++) {
 
                 var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
@@ -115,38 +154,6 @@ function getApi(movie) {
 
         })
 }
-// button.addEventListener("click", function(){
-//     fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?"+genreQuery, {
-//         "method": "GET",
-//         "headers": {
-//             "content-type": "application/json",
-//             "x-rapidapi-key": "cad95bd25cmsh6e5669cc54c4eb1p11eeb2jsn2eebb15c9353",
-//             "x-rapidapi-host": "ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com"
-//         }
-// 
-
-
-
-// fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?Genres=Fantasy&YearRange_Start=2010&YearRange_End=2020", {
-//     "method": "GET",
-//     "headers": {
-//         "content-type": "application/json",
-//         "x-rapidapi-key": "cad95bd25cmsh6e5669cc54c4eb1p11eeb2jsn2eebb15c9353",
-//         "x-rapidapi-host": "ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com"
-//     }
-// })
-// .then(response => response.json(){
-//     console.log(response);
-// })
-// .catch(err => {
-//     console.error(err);
-// });
-
-
-// .catch(err => alert("Wrong movie name"))
-// })
-
-// IMDb alternative API
 
 let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
 
@@ -183,5 +190,4 @@ function getPoster(randomMovie) {
 getPoster(randomMovie)
 
 getApi("top gun");
-
 
