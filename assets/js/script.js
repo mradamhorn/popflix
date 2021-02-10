@@ -1,3 +1,8 @@
+// make clear button function
+// fix search query IVA API
+// get a random movie from results
+// feed random movie into uTelly and IMDb APIs
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
@@ -108,6 +113,7 @@ $("#srchBtn").on("click", function () {
         }).then(function (data) {
             console.log("Your data:")
             console.log(data);
+
             let movies = data.Hits
             console.log("Your Possible movies:")
             console.log(movies);
@@ -115,6 +121,7 @@ $("#srchBtn").on("click", function () {
             myMovie = movies[randomNumber].Source.Title;
             console.log("You're movie is:");
             console.log(myMovie);
+
         })
 })
 
@@ -200,3 +207,19 @@ getPoster(randomMovie)
 
 getApi("top gun");
 
+$("#clear").on("click", function () {
+    let genreDefaut = $('#genreSelect')
+    genreDefault.prop('selectedIndex', 0)
+    genreDefault.formSelect()
+
+    let decadeDefault = $('#decadeSelect')
+    decadeDefault.prop('selectedIndex', 0)
+    decadeDefault.formSelect()
+
+    let ratingDefault = $('#ratingSelect')
+    ratingDefault.prop('selectedIndex', 0)
+    ratingDefault.formSelect()
+
+    $('#name').val('');
+
+});
