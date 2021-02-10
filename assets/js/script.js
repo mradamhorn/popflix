@@ -1,3 +1,8 @@
+// make clear button function
+// fix search query IVA API
+// get a random movie from results
+// feed random movie into uTelly and IMDb APIs
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
@@ -6,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-console.log("hi")
+console.log("pop into movie time!")
 
 var genreInput = $("#genreSelect");
 var decadeInput = $("#decadeSelect");
@@ -22,9 +27,9 @@ var decades = [
     { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
     { display: "1970s", query: "YearRange_Start=1970&YearRange_End=1979" },
     { display: "1980s", query: "YearRange_Start=1980&YearRange_End=1989" },
-    { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
     { display: "1990s", query: "YearRange_Start=1990&YearRange_End=1999" },
     { display: "2000s", query: "YearRange_Start=2000&YearRange_End=2009" },
+    { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
     { display: "2020s", query: "YearRange_Start=2020&YearRange_End=2019" }
 ]
 
@@ -106,6 +111,8 @@ $("#srchBtn").on("click", function () {
             return response.json();
         }).then(function (data) {
             console.log(data);
+
+
         })
 })
 
@@ -135,7 +142,7 @@ function getApi(movie) {
                 }
             }
 
-           
+
             for (var i = 0; i < movieMatch.locations.length; i++) {
 
                 var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
@@ -191,3 +198,19 @@ getPoster(randomMovie)
 
 getApi("top gun");
 
+$("#clear").on("click", function () {
+    let genreDefaut = $('#genreSelect')
+    genreDefault.prop('selectedIndex', 0)
+    genreDefault.formSelect()
+
+    let decadeDefault = $('#decadeSelect')
+    decadeDefault.prop('selectedIndex', 0)
+    decadeDefault.formSelect()
+
+    let ratingDefault = $('#ratingSelect')
+    ratingDefault.prop('selectedIndex', 0)
+    ratingDefault.formSelect()
+
+    $('#name').val('');
+
+});
