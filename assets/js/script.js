@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-console.log("pop into movie time!")
-
 var genreInput = $("#genreSelect");
 var decadeInput = $("#decadeSelect");
 var ratingInput = $("#ratingSelect");
@@ -20,8 +17,10 @@ var actorInput = $("#name");
 var search = $("#srchBtn");
 var clear = $("#clear");
 
+var myMovie = ""
+
 // genres manually selected from imdb genre list
-var genres = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"]
+var genres = ["Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
 var decades = [
     { display: "1950s", query: "YearRange_Start=1950&YearRange_End=1959" },
     { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
@@ -41,6 +40,7 @@ var ratings = [
     { display: "0+", query: "Minimum_IvaRating=0" }
 ];
 
+// Setting up dropdown menues for genre, decade, and rating
 for (var i = 0; i < genres.length; i++) {
     console.log("for loop")
     var option = $("<option>").attr("value", genres[i]).text(genres[i])
@@ -62,7 +62,9 @@ for (var i = 0; i < ratings.length; i++) {
     console.log(option)
 }
 
+// Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
+    console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
         var genre = $("#genreSelect").val()
         console.log(genre)
@@ -71,7 +73,6 @@ $("#srchBtn").on("click", function () {
     else {
         var genreQuery = ""
     };
-
     if ($("#decadeSelect").val()) {
         var decade = $("#decadeSelect").val()
         console.log(decade)
@@ -80,7 +81,6 @@ $("#srchBtn").on("click", function () {
     else {
         var decadeQuery = ""
     };
-
     if ($("#ratingSelect").val()) {
         var rating = $("#ratingSelect").val()
         console.log(rating)
@@ -89,7 +89,6 @@ $("#srchBtn").on("click", function () {
     else {
         var ratingQuery = ""
     };
-
     if ($("#name").val()) {
         var actorName = $("#name").val()
         console.log(actorName)
@@ -99,6 +98,7 @@ $("#srchBtn").on("click", function () {
         var actorName = ""
     };
 
+    // runs IVA Api request (Default ReleaseCountries=US)
     fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?" + genreQuery + actorQuery + "&ReleaseCountries=US" + decadeQuery + ratingQuery + "&ProgramTypes=Movie", {
         "method": "GET",
         "headers": {
@@ -109,9 +109,18 @@ $("#srchBtn").on("click", function () {
     })
         .then(function (response) {
             return response.json();
+            // Chooses a random movie from results array
         }).then(function (data) {
+            console.log("Your data:")
             console.log(data);
 
+            let movies = data.Hits
+            console.log("Your Possible movies:")
+            console.log(movies);
+            let randomNumber = Math.floor(Math.random() * movies.length);
+            myMovie = movies[randomNumber].Source.Title;
+            console.log("You're movie is:");
+            console.log(myMovie);
 
         })
 })
