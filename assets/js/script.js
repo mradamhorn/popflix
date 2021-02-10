@@ -11,15 +11,15 @@ var search = $("#srchBtn");
 var clear = $("#clear");
 
 // genres manually selected from imdb genre list
-var genres = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"]
+var genres = ["Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
 var decades = [
     { display: "1950s", query: "YearRange_Start=1950&YearRange_End=1959" },
     { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
     { display: "1970s", query: "YearRange_Start=1970&YearRange_End=1979" },
     { display: "1980s", query: "YearRange_Start=1980&YearRange_End=1989" },
-    { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
     { display: "1990s", query: "YearRange_Start=1990&YearRange_End=1999" },
     { display: "2000s", query: "YearRange_Start=2000&YearRange_End=2009" },
+    { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
     { display: "2020s", query: "YearRange_Start=2020&YearRange_End=2019" }
 ]
 
