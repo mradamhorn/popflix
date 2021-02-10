@@ -12,6 +12,8 @@ var actorInput = $("#name");
 var search = $("#srchBtn");
 var clear = $("#clear");
 
+var myMovie = ""
+
 // genres manually selected from imdb genre list
 var genres = ["Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
 var decades = [
@@ -57,6 +59,7 @@ for (var i = 0; i < ratings.length; i++) {
 
 // Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
+    console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
         var genre = $("#genreSelect").val()
         console.log(genre)
@@ -101,8 +104,17 @@ $("#srchBtn").on("click", function () {
     })
         .then(function (response) {
             return response.json();
+            // Chooses a random movie from results array
         }).then(function (data) {
+            console.log("Your data:")
             console.log(data);
+            let movies = data.Hits
+            console.log("Your Possible movies:")
+            console.log(movies);
+            let randomNumber = Math.floor(Math.random() * movies.length);
+            myMovie = movies[randomNumber].Source.Title;
+            console.log("You're movie is:");
+            console.log(myMovie);
         })
 })
 
@@ -132,7 +144,7 @@ function getApi(movie) {
                 }
             }
 
-           
+
             for (var i = 0; i < movieMatch.locations.length; i++) {
 
                 var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
