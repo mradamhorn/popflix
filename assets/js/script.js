@@ -95,7 +95,7 @@ $("#srchBtn").on("click", function () {
         var actorQuery = "&PersonNames=" + actorName
     }
     else {
-        var actorName = ""
+        var actorQuery = ""
     };
 
     // runs IVA Api request (Default ReleaseCountries=US)
@@ -119,10 +119,10 @@ $("#srchBtn").on("click", function () {
             console.log(movies);
             let randomNumber = Math.floor(Math.random() * movies.length);
             myMovie = movies[randomNumber].Source.Title;
-            console.log("You're movie is:");
+            console.log("Your movie is:");
             console.log(myMovie);
 
-        })
+        }).then(getApi(myMovie))
 })
 
 
@@ -168,17 +168,16 @@ function getApi(movie) {
                 window.location = ($(this).attr("url"));
             });
 
-        })
+        }).then(getPoster(randomMovie))
 }
 
-let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
+let randomMovie = myMovie.value
 
 function getPoster(randomMovie) {
     fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": "923b9036e4msh7d50620128936fep112714jsn6dbacd41c48e",
-            //"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
         }
     })
         .then(response => {
@@ -203,12 +202,12 @@ function getPoster(randomMovie) {
         });
 }
 
-getPoster(randomMovie)
 
-getApi("top gun");
+
+// getApi();
 
 $("#clear").on("click", function () {
-    let genreDefaut = $('#genreSelect')
+    let genreDefault = $('#genreSelect')
     genreDefault.prop('selectedIndex', 0)
     genreDefault.formSelect()
 
@@ -221,5 +220,8 @@ $("#clear").on("click", function () {
     ratingDefault.formSelect()
 
     $('#name').val('');
+
+    $('#movie-info').val('');
+    $('#movie-cover').val('');
 
 });
