@@ -20,7 +20,7 @@ var clear = $("#clear");
 var myMovie = ""
 
 // genres manually selected from imdb genre list
-var genres = ["Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
+var genres = ["Action-Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Mystery-Suspense", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
 var decades = [
     { display: "1950s", query: "YearRange_Start=1950&YearRange_End=1959" },
     { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
@@ -69,6 +69,7 @@ $("#srchBtn").on("click", function () {
         var genre = $("#genreSelect").val()
         console.log(genre)
         var genreQuery = "Genres=" + genre
+        console.log(genreQuery);
     }
     else {
         var genreQuery = ""
@@ -95,7 +96,7 @@ $("#srchBtn").on("click", function () {
         var actorQuery = "&PersonNames=" + actorName
     }
     else {
-        var actorName = ""
+        var actorQuery = ""
     };
 
     // runs IVA Api request (Default ReleaseCountries=US)
@@ -119,6 +120,7 @@ $("#srchBtn").on("click", function () {
             console.log(movies);
             let randomNumber = Math.floor(Math.random() * movies.length);
             myMovie = movies[randomNumber].Source.Title;
+            console.log(movies[randomNumber].Source);
             console.log("You're movie is:");
             console.log(myMovie);
 
