@@ -1,3 +1,8 @@
+// make clear button function
+// fix search query IVA API
+// get a random movie from results
+// feed random movie into uTelly and IMDb APIs
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
@@ -12,8 +17,10 @@ var actorInput = $("#name");
 var search = $("#srchBtn");
 var clear = $("#clear");
 
+var myMovie = ""
+
 // genres manually selected from imdb genre list
-var genres = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film Noir", "History", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"];
+var genres = ["Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Musical", "Romance", "Sci-Fi", "Thriller", "War", "Western"]
 var decades = [
     { display: "1950s", query: "YearRange_Start=1950&YearRange_End=1959" },
     { display: "1960s", query: "YearRange_Start=1960&YearRange_End=1969" },
@@ -22,8 +29,8 @@ var decades = [
     { display: "1990s", query: "YearRange_Start=1990&YearRange_End=1999" },
     { display: "2000s", query: "YearRange_Start=2000&YearRange_End=2009" },
     { display: "2010s", query: "YearRange_Start=2010&YearRange_End=2019" },
-    { display: "2020s", query: "YearRange_Start=2020&YearRange_End=2019" },
-];
+    { display: "2020s", query: "YearRange_Start=2020&YearRange_End=2019" }
+]
 
 var ratings = [
     { display: "8+", query: "Minimum_IvaRating=80" },
@@ -57,6 +64,7 @@ for (var i = 0; i < ratings.length; i++) {
 
 // Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
+    console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
         var genre = $("#genreSelect").val();
         console.log(genre);
@@ -101,17 +109,42 @@ $("#srchBtn").on("click", function () {
     })
         .then(function (response) {
             return response.json();
+            // Chooses a random movie from results array
         }).then(function (data) {
+            console.log("Your data:")
             console.log(data);
+
+            let movies = data.Hits
+            console.log("Your Possible movies:")
+            console.log(movies);
+            let randomNumber = Math.floor(Math.random() * movies.length);
+            myMovie = movies[randomNumber].Source.Title;
+            console.log("You're movie is:");
+            console.log(myMovie);
+            var movieName = $('<h1>').text(myMovie);
+            $('#movie-info').append(movieName)
+
+            if (myMovie) {
+                getApi(myMovie);
+
+            }
+            if (myMovie) {
+                getPoster(myMovie)
+            }
+
+
+
         })
+
+
 })
 
 
-function getApi(movie) {
+function getApi(myMovie) {
 
-    var results = movie;
-
-    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
+    var resultsMovie = myMovie.toLowerCase();
+    console.log(resultsMovie);
+    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + resultsMovie + "&country=us", {
         method: "GET",
         headers: {
             "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
@@ -123,10 +156,12 @@ function getApi(movie) {
             return response.json();
         })
         .then(function (data) {
+            console.log(data)
             var name = data.results;
             var movieMatch;
+            console.log(name)
             for (var i = 0; i < name.length; i++) {
-                if (results === name[i].name.toLowerCase()) {
+                if (resultsMovie === name[i].name.toLowerCase()) {
                     movieMatch = name[i];
                     break;
                 }
@@ -134,7 +169,7 @@ function getApi(movie) {
 
 
             for (var i = 0; i < movieMatch.locations.length; i++) {
-
+                console.log(movieMatch.locations)
                 var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
                 var button = $("<button>").attr("url", movieMatch.locations[i].url);
 
@@ -155,7 +190,8 @@ function getApi(movie) {
 
 // let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
 
-function getPoster(randomMovie) {
+function getPoster(myMovie) {
+    randomMovie = myMovie
     fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
         "method": "GET",
         "headers": {
@@ -171,8 +207,9 @@ function getPoster(randomMovie) {
             for (let i = 0; i < data.Search.length; i++) {
                 const element = data.Search[i];
                 if (randomMovie === data.Search[i].Title) {
-                    let poster = $('<img>').attr("src", data.Search[i].Poster)
+                    let poster = $('<img>').attr("src", data.Search[i].Poster);
                     $("#movie-cover").append(poster);
+
                     break;
                 } else {
 
@@ -186,7 +223,23 @@ function getPoster(randomMovie) {
 }
 
 
-getPoster('Logan\'s Run')
+// getPoster('Logan\'s Run')
 
-getApi("top gun");
 
+
+$("#clear").on("click", function () {
+    let genreDefaut = $('#genreSelect')
+    genreDefault.prop('selectedIndex', 0)
+    genreDefault.formSelect()
+
+    let decadeDefault = $('#decadeSelect')
+    decadeDefault.prop('selectedIndex', 0)
+    decadeDefault.formSelect()
+
+    let ratingDefault = $('#ratingSelect')
+    ratingDefault.prop('selectedIndex', 0)
+    ratingDefault.formSelect()
+
+    $('#name').val('');
+
+});
