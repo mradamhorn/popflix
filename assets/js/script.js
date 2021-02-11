@@ -37,68 +37,68 @@ var ratings = [
     { display: "6+", query: "Minimum_IvaRating=60" },
     { display: "4+", query: "Minimum_IvaRating=40" },
     { display: "2+", query: "Minimum_IvaRating=20" },
-    { display: "0+", query: "Minimum_IvaRating=0" }
+    { display: "0+", query: "Minimum_IvaRating=0" },
 ];
 
 // Setting up dropdown menues for genre, decade, and rating
 for (var i = 0; i < genres.length; i++) {
-    console.log("for loop")
-    var option = $("<option>").attr("value", genres[i]).text(genres[i])
-    genreInput.append(option)
-    console.log(option)
-}
+    console.log("for loop");
+    var option = $("<option>").attr("value", genres[i]).text(genres[i]);
+    genreInput.append(option);
+    console.log(option);
+};
 
 for (var i = 0; i < decades.length; i++) {
-    console.log("for loop")
-    var option = $("<option>").attr("value", decades[i].query).text(decades[i].display)
-    decadeInput.append(option)
-    console.log(option)
-}
+    console.log("for loop");
+    var option = $("<option>").attr("value", decades[i].query).text(decades[i].display);
+    decadeInput.append(option);
+    console.log(option);
+};
 
 for (var i = 0; i < ratings.length; i++) {
-    console.log("for loop")
-    var option = $("<option>").attr("value", ratings[i].query).text(ratings[i].display)
-    ratingInput.append(option)
-    console.log(option)
-}
+    console.log("for loop");
+    var option = $("<option>").attr("value", ratings[i].query).text(ratings[i].display);
+    ratingInput.append(option);
+    console.log(option);
+};
 
 // Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
     console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
-        var genre = $("#genreSelect").val()
-        console.log(genre)
-        var genreQuery = "Genres=" + genre
+        var genre = $("#genreSelect").val();
+        console.log(genre);
+        var genreQuery = "Genres=" + genre;
     }
     else {
-        var genreQuery = ""
+        var genreQuery = "";
     };
     if ($("#decadeSelect").val()) {
-        var decade = $("#decadeSelect").val()
-        console.log(decade)
-        var decadeQuery = "&" + decade
+        var decade = $("#decadeSelect").val();
+        console.log(decade);
+        var decadeQuery = "&" + decade;
     }
     else {
-        var decadeQuery = ""
+        var decadeQuery = "";
     };
     if ($("#ratingSelect").val()) {
-        var rating = $("#ratingSelect").val()
-        console.log(rating)
-        var ratingQuery = "&" + rating
+        var rating = $("#ratingSelect").val();
+        console.log(rating);
+        var ratingQuery = "&" + rating;
     }
     else {
-        var ratingQuery = ""
+        var ratingQuery = "";
     };
     if ($("#name").val()) {
-        var actorName = $("#name").val()
-        console.log(actorName)
-        var actorQuery = "&PersonNames=" + actorName
+        var actorName = $("#name").val();
+        console.log(actorName);
+        var actorQuery = "&PersonNames=" + actorName;
     }
     else {
-        var actorName = ""
+        var actorName = "";
     };
 
-    // runs IVA Api request (Default ReleaseCountries=US)
+    // runs IVA Api request (Default ReleaseCountries=US);
     fetch("https://ivaee-internet-video-archive-entertainment-v1.p.rapidapi.com/entertainment/search/?" + genreQuery + actorQuery + "&ReleaseCountries=US" + decadeQuery + ratingQuery + "&ProgramTypes=Movie", {
         "method": "GET",
         "headers": {
@@ -121,16 +121,30 @@ $("#srchBtn").on("click", function () {
             myMovie = movies[randomNumber].Source.Title;
             console.log("You're movie is:");
             console.log(myMovie);
+            var movieName = $('<h1>').text(myMovie);
+            $('#movie-info').append(movieName)
+
+            if (myMovie) {
+                getApi(myMovie);
+
+            }
+            if (myMovie) {
+                getPoster(myMovie)
+            }
+
+
 
         })
+
+
 })
 
 
-function getApi(movie) {
+function getApi(myMovie) {
 
-    var results = movie;
-
-    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + results + "&country=us", {
+    var resultsMovie = myMovie.toLowerCase();
+    console.log(resultsMovie);
+    fetch("https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=" + resultsMovie + "&country=us", {
         method: "GET",
         headers: {
             "x-rapidapi-key": "f80621f52fmsh7e0dcc69fa2d99ep1bff0bjsn0072d61650b6",
@@ -142,10 +156,12 @@ function getApi(movie) {
             return response.json();
         })
         .then(function (data) {
-            var name = data.results
+            console.log(data)
+            var name = data.results;
             var movieMatch;
+            console.log(name)
             for (var i = 0; i < name.length; i++) {
-                if (results === name[i].name.toLowerCase()) {
+                if (resultsMovie === name[i].name.toLowerCase()) {
                     movieMatch = name[i];
                     break;
                 }
@@ -153,7 +169,7 @@ function getApi(movie) {
 
 
             for (var i = 0; i < movieMatch.locations.length; i++) {
-
+                console.log(movieMatch.locations)
                 var icon = $("<img>").attr("src", movieMatch.locations[i].icon);
                 var button = $("<button>").attr("url", movieMatch.locations[i].url);
 
@@ -171,9 +187,11 @@ function getApi(movie) {
         })
 }
 
-let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
 
-function getPoster(randomMovie) {
+// let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
+
+function getPoster(myMovie) {
+    randomMovie = myMovie
     fetch("https://movie-database-imdb-alternative.p.rapidapi.com/?s=" + randomMovie + "&page=1&r=json", {
         "method": "GET",
         "headers": {
@@ -189,8 +207,9 @@ function getPoster(randomMovie) {
             for (let i = 0; i < data.Search.length; i++) {
                 const element = data.Search[i];
                 if (randomMovie === data.Search[i].Title) {
-                    let poster = $('<img>').attr("src", data.Search[i].Poster)
+                    let poster = $('<img>').attr("src", data.Search[i].Poster);
                     $("#movie-cover").append(poster);
+
                     break;
                 } else {
 
@@ -203,9 +222,10 @@ function getPoster(randomMovie) {
         });
 }
 
-getPoster(randomMovie)
 
-getApi("top gun");
+// getPoster('Logan\'s Run')
+
+
 
 $("#clear").on("click", function () {
     let genreDefaut = $('#genreSelect')
