@@ -64,6 +64,10 @@ for (var i = 0; i < ratings.length; i++) {
 
 // Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
+
+    $('#movie-info').empty();
+    $('#movie-cover').empty();
+
     console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
 
@@ -114,6 +118,7 @@ $("#srchBtn").on("click", function () {
     })
         .then(function (response) {
             return response.json();
+
             // Chooses a random movie from results array
         }).then(function (data) {
             console.log("Your data:")
@@ -122,13 +127,29 @@ $("#srchBtn").on("click", function () {
             let movies = data.Hits
             console.log("Your Possible movies:")
             console.log(movies);
+
             let randomNumber = Math.floor(Math.random() * movies.length);
             myMovie = movies[randomNumber].Source.Title;
             console.log(movies[randomNumber].Source);
             console.log("You're movie is:");
             console.log(myMovie);
-            var movieName = $('<h1>').text(myMovie);
+
+
+            var movieName = $('<h3>').text(myMovie);
             $('#movie-info').append(movieName)
+
+            var year = $('<p>').text("Release Year: " + movies[randomNumber].Source.Year).addClass('movie-details');
+            $('#movie-info').append(year);
+
+            var runtime = $('<p>').text("Runtime: " + movies[randomNumber].Source.Runtime + " minutes").addClass('movie-details');
+            $('#movie-info').append(runtime);
+
+            var language = $('<p>').text("Language: " + movies[randomNumber].Source.OriginalLanguage).addClass('movie-details');
+            $('#movie-info').append(language);
+
+            var rating = $('<p>').text("Rating: " + movies[randomNumber].Source.IvaRating + "/100").addClass('movie-details');
+            $('#movie-info').append(rating);
+
 
             if (myMovie) {
                 getApi(myMovie);
@@ -194,7 +215,6 @@ function getApi(myMovie) {
 }
 
 
-// let randomMovie = 'Logan\'s Run'; // We'll need to use the result from the IVA search here
 
 function getPoster(myMovie) {
     randomMovie = myMovie
@@ -202,7 +222,6 @@ function getPoster(myMovie) {
         "method": "GET",
         "headers": {
             "x-rapidapi-key": "923b9036e4msh7d50620128936fep112714jsn6dbacd41c48e",
-            //"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
         }
     })
         .then(response => {
@@ -216,6 +235,12 @@ function getPoster(myMovie) {
                     let poster = $('<img>').attr("src", data.Search[i].Poster);
                     $("#movie-cover").append(poster);
 
+                    var moreInfo = $('<p>').text("More Info").addClass('movie-details more-info');
+                    $('#movie-info').append(moreInfo);
+
+                    var imdbLink = $('<a>').attr('href', "https://www.imdb.com/title/" + data.Search[i].imdbID).text("https://www.imdb.com/title/" + data.Search[i].imdbID).addClass('imdb-link');
+                    $('#movie-info').append(imdbLink);
+
                     break;
                 } else {
 
@@ -227,9 +252,6 @@ function getPoster(myMovie) {
             console.error(err);
         });
 }
-
-
-// getPoster('Logan\'s Run')
 
 
 
@@ -247,5 +269,7 @@ $("#clear").on("click", function () {
     ratingDefault.formSelect()
 
     $('#name').val('');
+    $('#movie-info').empty();
+    $('#movie-cover').empty();
 
 });

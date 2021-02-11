@@ -3,6 +3,11 @@ body {
     background-image: url(https://paramountaurora.com/wp-content/uploads/2018/08/Paramount-Interior.jpg);
 }
 
+h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
 nav {
     background-color: #000000;
 }
@@ -40,7 +45,7 @@ nav {
 }
 
 #movie-cover {
-    padding: 50px;
+    padding: 5%;
     text-align: center;
 }
 
@@ -84,7 +89,25 @@ nav {
 
 #movie-info{
     height: auto;
-    text-align: center;
+    text-align: left;
+    padding-left: 5%;
+}
 
- 
+.movie-details {
+    font-size: 25px;
+    line-height: 2;
+}
+
+.imdb-link {
+    font-size: 20px;
+    color: #24638d
+}
+
+.imdb-link:hover {
+    color: #7a1f1f;
+    font-weight: bolder;
+}
+
+.more-info {
+    font-weight: bold;
 }
