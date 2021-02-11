@@ -67,6 +67,7 @@ $("#srchBtn").on("click", function () {
 
     $('#movie-info').empty();
     $('#movie-cover').empty();
+    $('#uTelly').empty();
 
     console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
@@ -271,5 +272,6 @@ $("#clear").on("click", function () {
     $('#name').val('');
     $('#movie-info').empty();
     $('#movie-cover').empty();
+    $('#uTelly').empty();
 
 });
