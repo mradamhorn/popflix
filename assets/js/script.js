@@ -64,6 +64,10 @@ for (var i = 0; i < ratings.length; i++) {
 
 // Setting up query terms for IVA Api
 $("#srchBtn").on("click", function () {
+
+    $('#movie-info').empty();
+    $('#movie-cover').empty();
+
     console.log("Your search parameters:")
     if ($("#genreSelect").val()) {
 
@@ -114,6 +118,7 @@ $("#srchBtn").on("click", function () {
     })
         .then(function (response) {
             return response.json();
+
             // Chooses a random movie from results array
         }).then(function (data) {
             console.log("Your data:")
@@ -122,13 +127,29 @@ $("#srchBtn").on("click", function () {
             let movies = data.Hits
             console.log("Your Possible movies:")
             console.log(movies);
+
             let randomNumber = Math.floor(Math.random() * movies.length);
             myMovie = movies[randomNumber].Source.Title;
             console.log(movies[randomNumber].Source);
             console.log("You're movie is:");
             console.log(myMovie);
-            var movieName = $('<h1>').text(myMovie);
+
+
+            var movieName = $('<h3>').text(myMovie);
             $('#movie-info').append(movieName)
+
+            var year = $('<p>').text("Release Year: " + movies[randomNumber].Source.Year).addClass('movie-details');
+            $('#movie-info').append(year);
+
+            var runtime = $('<p>').text("Runtime: " + movies[randomNumber].Source.Runtime + " minutes").addClass('movie-details');
+            $('#movie-info').append(runtime);
+
+            var language = $('<p>').text("Language: " + movies[randomNumber].Source.OriginalLanguage).addClass('movie-details');
+            $('#movie-info').append(language);
+
+            var rating = $('<p>').text("Rating: " + movies[randomNumber].Source.IvaRating + "/100").addClass('movie-details');
+            $('#movie-info').append(rating);
+
 
             if (myMovie) {
                 getApi(myMovie);
@@ -190,7 +211,7 @@ function getApi(myMovie) {
                 window.location = ($(this).attr("url"));
             });
 
-        }).then(getPoster(randomMovie))
+        })
 }
 
 
@@ -214,6 +235,12 @@ function getPoster(myMovie) {
                     let poster = $('<img>').attr("src", data.Search[i].Poster);
                     $("#movie-cover").append(poster);
 
+                    var moreInfo = $('<p>').text("More Info").addClass('movie-details more-info');
+                    $('#movie-info').append(moreInfo);
+
+                    var imdbLink = $('<a>').attr('href', "https://www.imdb.com/title/" + data.Search[i].imdbID).text("https://www.imdb.com/title/" + data.Search[i].imdbID).addClass('imdb-link');
+                    $('#movie-info').append(imdbLink);
+
                     break;
                 } else {
 
@@ -225,9 +252,6 @@ function getPoster(myMovie) {
             console.error(err);
         });
 }
-
-
-// getPoster('Logan\'s Run')
 
 
 
@@ -245,8 +269,7 @@ $("#clear").on("click", function () {
     ratingDefault.formSelect()
 
     $('#name').val('');
-
-    $('#movie-info').val('');
-    $('#movie-cover').val('');
+    $('#movie-info').empty();
+    $('#movie-cover').empty();
 
 });
