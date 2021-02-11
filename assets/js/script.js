@@ -234,7 +234,7 @@ function getPoster(myMovie) {
 
 
 $("#clear").on("click", function () {
-    let genreDefaut = $('#genreSelect')
+    let genreDefault = $('#genreSelect')
     genreDefault.prop('selectedIndex', 0)
     genreDefault.formSelect()
 
